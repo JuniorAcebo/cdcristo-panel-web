@@ -101,11 +101,24 @@ use Carbon\Carbon;
 
                                 <!-- Paciente -->
                                 <div class="col-md-6">
-                                    <label class="form-label">Paciente</label>
+                                    <label class="form-label">Paciente:</label>
                                     <select name="idPaciente" class="form-select" required>
                                         @foreach ($pacientes as $paciente)
-                                            <option value="{{ $paciente->ci }}">
+                                            <option value="{{ $paciente->id }}">
                                                 {{ $paciente->nombre }} {{ $paciente->appaterno }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                </div>
+
+                                <!-- Servicio -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Servicio:</label>
+                                    <select name="idServicio" class="form-select" required>
+                                        @foreach ($servicios as $servicio)
+                                            <option value="{{ $servicio->id }}">
+                                                {{ $servicio->nombre }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -114,7 +127,7 @@ use Carbon\Carbon;
 
                                 <!-- Odontólogo -->
                                 <div class="col-md-6">
-                                    <label class="form-label">Odontólogo</label>
+                                    <label class="form-label">Odontólogo:</label>
                                     <select name="idOdontologo" class="form-select" required>
                                         @foreach ($odontologos as $odontologo)
                                             <option value="{{ $odontologo->id }}">
@@ -127,20 +140,10 @@ use Carbon\Carbon;
 
                                 <!-- Fecha y hora -->
                                 <div class="col-md-12">
-                                    <label class="form-label">Fecha y hora de la cita</label>
+                                    <label class="form-label">Fecha y hora de la cita:</label>
                                     <input type="date" name="fecha" class="form-control" required>
                                     <input type="time" name="hora" class="form-control" required>
 
-                                </div>
-
-                                <!-- Estado -->
-                                <div class="col-md-4">
-                                    <label class="form-label">Estado</label>
-                                    <select name="estado" class="form-select" required>
-                                        <option value="0">Pendiente</option>
-                                        <option value="1">Completadp</option>
-                                        <option value="2">Cancelada</option>
-                                    </select>
                                 </div>
 
                             </div>
@@ -171,7 +174,7 @@ use Carbon\Carbon;
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Profesional</th>
-                                <th>Motivo</th>
+                                <th>Servicio</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -190,30 +193,50 @@ use Carbon\Carbon;
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ Carbon::parse($cita->fecha)->format('d/m/Y') }}</td>
-                                <td>
-                                    {{ Carbon::parse($cita->hora_inicio)->format('h:i A') }}
-                                </td>
+                                <td>{{ Carbon::parse($cita->fechaHora)->format('d/m/Y') }}</td>
+                                <td>{{ Carbon::parse($cita->fechaHora)->format('H:i') }}</td>
                                 <td>{{ $cita->odontologo->nombre }}  {{ $cita->odontologo->appaterno }}</td>
+
                                 <td class="text-truncate" style="max-width: 200px;" title="{{ $cita->motivo }}">
-                                    {{ $cita->motivo }}
+                                    {{ $cita->servicio->nombre }}
                                 </td>
                                 <td>
                                     <span class="badge rounded-pill
-                                        @if($cita->estado == 'pendiente') badge-pendiente
-                                        @elseif($cita->estado == 'completada') badge-completada
-                                        @elseif($cita->estado == 'cancelada') badge-cancelada
+                                        @if($cita->estado == 0) badge-pendiente
+                                        @elseif($cita->estado == 1) badge-completada
+                                        @elseif($cita->estado == 2) badge-cancelada
                                         @endif">
-                                        {{ ucfirst($cita->estado) }}
+                                        
+                                        @if($cita->estado == 0) Pendiente
+                                        @elseif($cita->estado == 1) Completada
+                                        @elseif($cita->estado == 2) Cancelada
+                                        @endif
                                     </span>
                                 </td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <!-- Botón Eliminar -->
-                                        <button type="button" class="action-btn btn btn-sm btn-outline-danger"
-                                            data-bs-toggle="modal" data-bs-target="#Delete-{{ $cita->id }}" title="Eliminar">
+                                        {{-- BOTÓN ELIMINAR --}}
+                                        <button type="button"
+                                            class="action-btn btn btn-sm btn-outline-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#Delete-{{ $cita->id }}"
+                                            title="Eliminar">
                                             <i class="bi bi-trash"></i>
                                         </button>
+
+                                        {{-- BOTÓN COMPLETAR --}}
+                                        @if ($cita->estado == 0)
+                                            <form action="{{ route('citas.completar', $cita->id) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button
+                                                    type="submit"
+                                                    class="action-btn btn btn-sm btn-outline-success"
+                                                    title="Marcar como completada">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -222,27 +245,56 @@ use Carbon\Carbon;
                             <div class="modal fade" id="Delete-{{ $cita->id }}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
+
                                         <div class="modal-header bg-light">
-                                            <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirmar Eliminación</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title text-danger">
+                                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                                Confirmar Eliminación de Cita
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
+
                                         <div class="modal-body">
-                                            <p>¿Estás seguro que deseas eliminar la cita de <strong>{{ $cita->paciente->nombre }}</strong> programada para el <strong>{{ Carbon::parse($cita->fecha)->format('d/m/Y') }}</strong>?</p>
-                                            <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
+                                            <p>
+                                                ¿Estás seguro que deseas eliminar la cita del paciente:
+                                            </p>
+
+                                            <ul class="list-unstyled mb-3">
+                                                <li><strong>CI:</strong> {{ $cita->paciente->ci }}</li>
+                                                <li><strong>Paciente:</strong> {{ $cita->paciente->nombre }} {{ $cita->paciente->appaterno }}</li>
+                                                <li>
+                                                    <strong>Fecha:</strong>
+                                                    {{ \Carbon\Carbon::parse($cita->fechaHora)->format('d/m/Y') }}
+                                                </li>
+                                                <li>
+                                                    <strong>Hora:</strong>
+                                                    {{ \Carbon\Carbon::parse($cita->fechaHora)->format('H:i') }}
+                                                </li>
+                                            </ul>
+
+                                            <p class="text-danger mb-0">
+                                                <small><strong>Esta acción no se puede deshacer.</strong></small>
+                                            </p>
                                         </div>
+
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancelar
+                                            </button>
+
                                             <form action="{{ route('citas.destroy', $cita->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">
-                                                    <i class="bi bi-trash me-1"></i> Eliminar
+                                                    <i class="bi bi-trash me-1"></i> Eliminar Cita
                                                 </button>
                                             </form>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
                             @endforeach
                         </tbody>
                     </table>

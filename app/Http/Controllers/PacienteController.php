@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Requests\StorePacienteRequest;
 use App\Models\Paciente;
 use Exception;

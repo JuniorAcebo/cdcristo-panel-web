@@ -128,14 +128,14 @@ use Carbon\Carbon;
                                 <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M"
                                        {{ old('sexo') == 'M' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sexo_m">
-                                    <i class="bi bi-gender-male gender-icon text-primary"></i>Masculino
+                                    <i class="bi bi-gender-male gender-icon text-primary"> Masculino</i>
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F"
                                        {{ old('sexo') == 'F' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sexo_f">
-                                    <i class="bi bi-gender-female gender-icon text-danger"></i>Femenino
+                                    <i class="bi bi-gender-female gender-icon text-danger"> Femenino</i>
                                 </label>
                             </div>
                         </div>
@@ -147,40 +147,30 @@ use Carbon\Carbon;
                     </div>
 
                     <!-- Usuario -->
-                    <!--Falta codigo para usuario-->
-
-                    <!-- Estado -->
                     <div class="col-md-6 form-section">
-                        <label class="form-label d-flex align-items-center gap-2">
-                            <i class="bi bi-shield-check text-success"></i>
-                            Estado
+                        <label for="idUsuario" class="form-label">
+                            <i class="bi bi-envelope form-icon"> Asignar Usuario</i>
                         </label>
+                        <select name="idUsuario" id="idUsuario"
+                                class="form-select @error('idUsuario') is-invalid @enderror"
+                                required>
+                            <option value="">Seleccione un usuario</option>
+                            @foreach ($usuarios as $usuario)
+                                <option value="{{ $usuario->id }}"
+                                    {{ old('idUsuario') == $usuario->id ? 'selected' : '' }}>
+                                    {{ $usuario->email }}
+                                </option>
+                            @endforeach
+                        </select>
 
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="text-danger d-flex align-items-center gap-1">
-                                <i class="bi bi-x-circle-fill"></i> Inactivo
-                            </span>
-
-                            <div class="form-check form-switch m-0">
-                                <input class="form-check-input"
-                                    type="checkbox"
-                                    name="activo"
-                                    id="activo"
-                                    value="1"
-                                    {{ old('activo', $odontologo->activo ?? false) ? 'checked' : '' }}>
-                            </div>
-
-                            <span class="text-success d-flex align-items-center gap-1">
-                                <i class="bi bi-check-circle-fill"></i> Activo
-                            </span>
-                        </div>
-
-                        @error('activo')
-                            <div class="invalid-feedback d-block">
+                        @error('idUsuario')
+                            <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
+
+
                 </div>
             </div>
 

@@ -107,10 +107,10 @@ use Carbon\Carbon;
                             @foreach ($odontologos as $odontologo)
                                 <tr>
                                     <td>{{ $odontologo->ci }}</td>
-                                    <td>{{ $odontologo->nombre }} {{ $odontologo->appaterno }}</td>
+                                    <td>{{ $odontologo->nombre }} {{ $odontologo->appaterno }} </td>
                                     <td>{{ $odontologo->telefono ?? 'N/A' }}</td>
                                     <td>{{ $odontologo->sexo == 'M' ? 'Masculino' : 'Femenino' }}</td>
-                                    <td>{{ $odontologo->idUsuario }}</td>
+                                    <td>{{ $odontologo->usuario->email}}</td>
                                     <td>
                                         <span class="badge {{ $odontologo->estado ? 'badge-activo' : 'badge-inactivo' }}">
                                             {{ $odontologo->estado ? 'Activo' : 'Inactivo' }}
@@ -122,11 +122,14 @@ use Carbon\Carbon;
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
-                                        <button class="btn btn-sm btn-outline-danger"
+                                        <button class="btn btn-sm {{ $odontologo->estado ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $odontologo->id }}">
-                                            <i class="bi bi-trash"></i>
+                                                data-bs-target="#deleteModal{{ $odontologo->id }}"
+                                                title="{{ $odontologo->estado ? 'Dar de baja' : 'Activar' }}">
+                                                
+                                            <i class="bi {{ $odontologo->estado ? 'bi-person-x-fill' : 'bi-person-check-fill' }}"></i>
                                         </button>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -137,18 +140,12 @@ use Carbon\Carbon;
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
-                                    <div class="modal-header bg-light">
-                                        <h5 class="modal-title text-danger">
-                                            <i class="bi bi-exclamation-triangle me-2"></i> Confirmar Eliminación
-                                        </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-
                                     <div class="modal-body">
-                                        ¿Dar de baja al odontologo <strong>{{ $odontologo->nombre }} {{ $odontologo->appaterno }}</strong>?
-                                        <br>
-                                        <small class="text-danger"><strong>CI: {{ $odontologo->ci }}</strong> <br>
-                                            Esta acción no se puede deshacer.</small>
+                                        <h5 class="modal-title {{ $odontologo->estado ? 'text-danger' : 'text-success' }}">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        {{ $odontologo->estado ? 'Dar de Baja Odontólogo' : 'Activar Odontólogo' }}
+                                    </h5>
+
                                     </div>
 
                                     <div class="modal-footer">
@@ -156,12 +153,13 @@ use Carbon\Carbon;
                                             Cancelar
                                         </button>
 
-                                        <form action="{{ route('odontologo.destroy', $odontologo->id) }}" method="POST">
+                                        <form action="{{ route('odontologo.toggleEstado', $odontologo->id) }}" method="POST">
                                             @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger">
-                                                Eliminar
+                                            @method('PATCH')
+                                            <button class="btn {{ $odontologo->estado ? 'btn-danger' : 'btn-success' }}">
+                                                {{ $odontologo->estado ? 'Dar de Baja' : 'Activar' }}
                                             </button>
+
                                         </form>
                                     </div>
 

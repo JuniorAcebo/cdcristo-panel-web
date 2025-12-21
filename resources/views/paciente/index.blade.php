@@ -143,10 +143,11 @@ use Carbon\Carbon;
                                     </div>
 
                                     <div class="modal-body">
-                                        ¿Eliminar al paciente <strong>{{ $paciente->nombre }} {{ $paciente->appaterno }}</strong>?
+                                        ¿Eliminar al paciente: <strong>{{ $paciente->nombre }} {{ $paciente->appaterno }}</strong>?
                                         <br>
                                         <small class="text-danger"><strong>CI: {{ $paciente->ci }}</strong> <br>
-                                            Esta acción no se puede deshacer.</small>
+                                        <i>Nota: Si elimina al Paciente, se eliminará todo su historial.</i><br>
+                                        Esta acción no se puede deshacer. <br></small>
                                     </div>
 
                                     <div class="modal-footer">

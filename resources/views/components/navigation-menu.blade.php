@@ -19,8 +19,8 @@
                     <div class="sb-nav-link-icon">
                         <i class="fas fa-user-injured"></i>
                     </div>
-                    odontologos
-                    <span class="badge bg-primary float-end mt-1">{{ \App\Models\odontologo::count() }}</span>
+                    Odontologos
+                    <span class="badge bg-primary float-end mt-1">{{ \App\Models\Odontologo::count() }}</span>
                 </a>
 
                 <!-- Pacientes -->

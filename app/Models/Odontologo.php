@@ -12,6 +12,7 @@ class Odontologo extends Model
     protected $table = 'odontologos';
 
     protected $fillable = [
+        'ci',
         'nombre',
         'appaterno',
         'telefono',

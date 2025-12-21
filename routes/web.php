@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/panel', [HomeController::class, 'index'])->name('panel');
     Route::resource('paciente', PacienteController::class);
     Route::resource('odontologo', OdontologoController::class);
+    Route::patch('/odontologo/{odontologo}/estado',[OdontologoController::class, 'toggleEstado'])->name('odontologo.toggleEstado');
+    Route::patch('/citas/{cita}/completar', [CitaController::class, 'completar'])->name('citas.completar');
+
 
     // Rutas para citas
     Route::get('/citas', [CitaController::class, 'index'])->name('citas.index');

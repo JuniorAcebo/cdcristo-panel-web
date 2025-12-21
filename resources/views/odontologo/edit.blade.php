@@ -72,7 +72,7 @@ use Carbon\Carbon;
                     <!-- CI -->
                     <div class="col-md-6 form-section">
                         <label for="ci" class="form-label">
-                            <i class="bi bi-card-heading form-icon"></i>Cédula de Identidad
+                            <i class="bi bi-card-heading form-icon"> Cédula de Identidad</i>
                         </label>
                         <input type="text" name="ci" id="ci" class="form-control @error('ci') is-invalid @enderror"
                                value="{{ old('ci', $odontologo->ci) }}" required>
@@ -86,7 +86,7 @@ use Carbon\Carbon;
                     <!-- Nombre -->
                     <div class="col-md-6 form-section">
                         <label for="nombre" class="form-label">
-                            <i class="bi bi-person-vcard form-icon"></i>Nombre(s)
+                            <i class="bi bi-person-vcard form-icon"> Nombre(s)</i>
                         </label>
                         <input type="text" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror"
                                value="{{ old('nombre', $odontologo->nombre) }}" required>
@@ -100,7 +100,7 @@ use Carbon\Carbon;
                     <!-- Apellido Paterno -->
                     <div class="col-md-6 form-section">
                         <label for="appaterno" class="form-label">
-                            <i class="bi bi-person form-icon"></i>Apellido Paterno
+                            <i class="bi bi-person form-icon"> Apellido Paterno</i>
                         </label>
                         <input type="text" name="appaterno" id="appaterno" class="form-control @error('appaterno') is-invalid @enderror"
                                value="{{ old('appaterno', $odontologo->appaterno) }}">
@@ -111,24 +111,10 @@ use Carbon\Carbon;
                         @enderror
                     </div>
 
-                    <!-- Apellido Materno -->
-                    <div class="col-md-6 form-section">
-                        <label for="apmaterno" class="form-label">
-                            <i class="bi bi-person form-icon"></i>Apellido Materno
-                        </label>
-                        <input type="text" name="apmaterno" id="apmaterno" class="form-control @error('apmaterno') is-invalid @enderror"
-                               value="{{ old('apmaterno', $odontologo->apmaterno) }}">
-                        @error('apmaterno')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
                     <!-- Teléfono -->
                     <div class="col-md-6 form-section">
                         <label for="telefono" class="form-label">
-                            <i class="bi bi-telephone form-icon"></i>Teléfono/Celular
+                            <i class="bi bi-telephone form-icon"> Teléfono/Celular</i>
                         </label>
                         <input type="tel" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror"
                                value="{{ old('telefono', $odontologo->telefono) }}" pattern="[0-9]{7,15}">
@@ -142,21 +128,21 @@ use Carbon\Carbon;
                     <!-- Género -->
                     <div class="col-md-6 form-section">
                         <label class="form-label">
-                            <i class="bi bi-gender-ambiguous form-icon"></i>Género
+                            <i class="bi bi-gender-ambiguous form-icon"> Género</i>
                         </label>
                         <div class="d-flex gap-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M"
                                        {{ old('sexo', $odontologo->sexo) == 'M' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sexo_m">
-                                    <i class="bi bi-gender-male gender-icon text-primary"></i>Masculino
+                                    <i class="bi bi-gender-male gender-icon text-primary"> Masculino</i>
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F"
                                        {{ old('sexo', $odontologo->sexo) == 'F' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sexo_f">
-                                    <i class="bi bi-gender-female gender-icon text-danger"></i>Femenino
+                                    <i class="bi bi-gender-female gender-icon text-danger"> Femenino</i>
                                 </label>
                             </div>
                         </div>
@@ -167,52 +153,28 @@ use Carbon\Carbon;
                         @enderror
                     </div>
 
-                    <!-- Seguro -->
-                    <div class="col-12 form-section">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="seguro" id="seguro" value="1"
-                                   {{ old('seguro', $odontologo->seguro) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="seguro">
-                                <i class="bi bi-shield-check form-icon"></i>¿Tiene seguro médico?
-                            </label>
-                        </div>
-                        @error('seguro')
-                            <div class="invalid-feedback d-block">
+                    <!-- Usuario -->
+                    <div class="col-md-6 form-section">
+                        <label for="idUsuario" class="form-label">
+                            <i class="bi bi-envelope form-icon"> Usuario</i>
+                        </label>
+                        <select name="idUsuario" id="idUsuario"
+                                class="form-select @error('idUsuario') is-invalid @enderror"
+                                required>
+                            <option value="">Seleccione un usuario</option>
+                            @foreach ($usuarios as $usuario)
+                                <option value="{{ $usuario->id }}"
+                                    {{ old('idUsuario', $odontologo->idUsuario) == $usuario->id ? 'selected' : '' }}>
+                                    {{ $usuario->email }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @error('idUsuario')
+                            <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
-
-                    <!-- Campos de Seguro (condicional) -->
-                    <div id="seguro-fields" class="row g-3" style="{{ old('seguro', $odontologo->seguro) ? '' : 'display:none; height:0;' }}">
-                        <div class="col-md-6 form-section">
-                            <label for="fechaSeAdquirido" class="form-label">
-                                <i class="bi bi-calendar-check form-icon"></i>Fecha de Adquisición
-                            </label>
-                            <input type="date" name="fechaSeAdquirido"
-                                class="form-control"
-                                value="{{ old('fechaSeAdquirido', $odontologo->fechaSeAdquirido?->format('Y-m-d')) }}">
-
-                            @error('fechaSeAdquirido')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 form-section">
-                            <label for="fechaSeExpiracion" class="form-label">
-                                <i class="bi bi-calendar-x form-icon"></i>Fecha de Expiración
-                            </label>
-                            <input type="date" name="fechaSeExpiracion"
-                                class="form-control"
-                                value="{{ old('fechaSeExpiracion', $odontologo->fechaSeExpiracion?->format('Y-m-d')) }}">
-                            @error('fechaSeExpiracion')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
                     </div>
                 </div>
             </div>

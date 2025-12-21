@@ -72,7 +72,7 @@ use Carbon\Carbon;
                     <!-- CI -->
                     <div class="col-md-6 form-section">
                         <label for="ci" class="form-label">
-                            <i class="bi bi-card-heading form-icon"></i>Cédula de Identidad
+                            <i class="bi bi-card-heading form-icon"> Cédula de Identidad</i>
                         </label>
                         <input type="text" name="ci" id="ci" class="form-control @error('ci') is-invalid @enderror"
                                value="{{ old('ci', $paciente->ci) }}" required>
@@ -86,7 +86,7 @@ use Carbon\Carbon;
                     <!-- Nombre -->
                     <div class="col-md-6 form-section">
                         <label for="nombre" class="form-label">
-                            <i class="bi bi-person-vcard form-icon"></i>Nombre(s)
+                            <i class="bi bi-person-vcard form-icon"> Nombre(s)</i>
                         </label>
                         <input type="text" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror"
                                value="{{ old('nombre', $paciente->nombre) }}" required>
@@ -100,7 +100,7 @@ use Carbon\Carbon;
                     <!-- Apellido Paterno -->
                     <div class="col-md-6 form-section">
                         <label for="appaterno" class="form-label">
-                            <i class="bi bi-person form-icon"></i>Apellido Paterno
+                            <i class="bi bi-person form-icon"> Apellido Paterno</i>
                         </label>
                         <input type="text" name="appaterno" id="appaterno" class="form-control @error('appaterno') is-invalid @enderror"
                                value="{{ old('appaterno', $paciente->appaterno) }}">
@@ -114,7 +114,7 @@ use Carbon\Carbon;
                     <!-- Apellido Materno -->
                     <div class="col-md-6 form-section">
                         <label for="apmaterno" class="form-label">
-                            <i class="bi bi-person form-icon"></i>Apellido Materno
+                            <i class="bi bi-person form-icon"> Apellido Materno</i>
                         </label>
                         <input type="text" name="apmaterno" id="apmaterno" class="form-control @error('apmaterno') is-invalid @enderror"
                                value="{{ old('apmaterno', $paciente->apmaterno) }}">
@@ -128,7 +128,7 @@ use Carbon\Carbon;
                     <!-- Teléfono -->
                     <div class="col-md-6 form-section">
                         <label for="telefono" class="form-label">
-                            <i class="bi bi-telephone form-icon"></i>Teléfono/Celular
+                            <i class="bi bi-telephone form-icon"> Teléfono/Celular</i>
                         </label>
                         <input type="tel" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror"
                                value="{{ old('telefono', $paciente->telefono) }}" pattern="[0-9]{7,15}">
@@ -142,21 +142,21 @@ use Carbon\Carbon;
                     <!-- Género -->
                     <div class="col-md-6 form-section">
                         <label class="form-label">
-                            <i class="bi bi-gender-ambiguous form-icon"></i>Género
+                            <i class="bi bi-gender-ambiguous form-icon"> Género</i>
                         </label>
                         <div class="d-flex gap-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="M"
                                        {{ old('sexo', $paciente->sexo) == 'M' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sexo_m">
-                                    <i class="bi bi-gender-male gender-icon text-primary"></i>Masculino
+                                    <i class="bi bi-gender-male gender-icon text-primary"> Masculino</i>
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="F"
                                        {{ old('sexo', $paciente->sexo) == 'F' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sexo_f">
-                                    <i class="bi bi-gender-female gender-icon text-danger"></i>Femenino
+                                    <i class="bi bi-gender-female gender-icon text-danger"> Femenino</i>
                                 </label>
                             </div>
                         </div>
@@ -173,7 +173,7 @@ use Carbon\Carbon;
                             <input class="form-check-input" type="checkbox" name="seguro" id="seguro" value="1"
                                    {{ old('seguro', $paciente->seguro) ? 'checked' : '' }}>
                             <label class="form-check-label" for="seguro">
-                                <i class="bi bi-shield-check form-icon"></i>¿Tiene seguro médico?
+                                <i class="bi bi-shield-check form-icon"> ¿Tiene seguro médico?</i>
                             </label>
                         </div>
                         @error('seguro')
@@ -187,7 +187,7 @@ use Carbon\Carbon;
                     <div id="seguro-fields" class="row g-3" style="{{ old('seguro', $paciente->seguro) ? '' : 'display:none; height:0;' }}">
                         <div class="col-md-6 form-section">
                             <label for="fechaSeAdquirido" class="form-label">
-                                <i class="bi bi-calendar-check form-icon"></i>Fecha de Adquisición
+                                <i class="bi bi-calendar-check form-icon"> Fecha de Adquisición</i>
                             </label>
                             <input type="date" name="fechaSeAdquirido"
                                 class="form-control"
@@ -202,7 +202,7 @@ use Carbon\Carbon;
 
                         <div class="col-md-6 form-section">
                             <label for="fechaSeExpiracion" class="form-label">
-                                <i class="bi bi-calendar-x form-icon"></i>Fecha de Expiración
+                                <i class="bi bi-calendar-x form-icon"> Fecha de Expiración</i>
                             </label>
                             <input type="date" name="fechaSeExpiracion"
                                 class="form-control"

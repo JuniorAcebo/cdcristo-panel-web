@@ -5,21 +5,29 @@ use App\Models\Odontologo;
 use App\Http\Requests\StoreOdontologoRequest;
 use App\Http\Requests\UpdateOdontologoRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Exception;
+use App\Models\User;
 
 class OdontologoController extends Controller
 {
     public function index()
     {
-        $odontologos = Odontologo::orderBy('id', 'desc')->get();
+        $odontologos = Odontologo::with('usuario')
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('odontologo.index', compact('odontologos'));
     }
 
+
     public function create()
     {
-        return view('odontologo.create');
+        // usuarios que NO están asignados a ningún odontólogo
+        $usuarios = User::whereDoesntHave('odontologo')->get();
+
+        return view('odontologo.create', compact('usuarios'));
     }
+
 
     public function store(StoreOdontologoRequest $request)
     {
@@ -46,8 +54,13 @@ class OdontologoController extends Controller
 
     public function edit(Odontologo $odontologo)
     {
-        return view('odontologo.edit', compact('odontologo'));
+        $usuarios = User::whereDoesntHave('odontologo')
+            ->orWhere('id', $odontologo->idUsuario)
+            ->get();
+
+        return view('odontologo.edit', compact('odontologo', 'usuarios'));
     }
+
 
     public function update(UpdateOdontologoRequest $request, Odontologo $odontologo)
     {
@@ -56,13 +69,6 @@ class OdontologoController extends Controller
             DB::beginTransaction();
 
             $data = $request->validated();
-
-            // Manejo del seguro
-            if (!isset($data['seguro']) || !$data['seguro']) {
-                $data['seguro'] = false;
-                $data['fechaSeAdquirido'] = null;
-                $data['fechaSeExpiracion'] = null;
-            }
 
             $odontologo->update($data);
 
@@ -75,4 +81,19 @@ class OdontologoController extends Controller
 
         return redirect()->route('odontologo.index')->with('success', $message);
     }
+
+    public function toggleEstado(Odontologo $odontologo)
+    {
+        $odontologo->update([
+            'estado' => !$odontologo->estado
+        ]);
+
+        return redirect()
+            ->route('odontologo.index')
+            ->with('success', $odontologo->estado 
+                ? 'Odontólogo activado correctamente'
+                : 'Odontólogo dado de baja correctamente'
+            );
+    }
+
 }
