@@ -1,0 +1,68 @@
+/* --- nuevos css ----*/
+/* --- nuevos css ----*/
+/* --- nuevos css ----*/
+/* --- nuevos css ----*/
+
+.selectt {
+    position: relative;
+    /* Necesario para posicionar el icono de forma correcta */
+}
+
+.selectt select {
+    width: 100%;
+    padding: 15px 40px 15px 10px;
+    font-size: 15px;
+    color: #777777;
+    /* Color A: color suave cuando no se ha seleccionado nada */
+    background: #ffffff;
+    border: 1px solid #777;
+    border-radius: 0px;
+    height: calc(3.0em + .75rem + 2px);
+    transition: .3s;
+    text-transform: capitalize;
+    appearance: none;
+    z-index: 10;
+    position: relative;
+}
+
+/* Cuando el select tiene el foco (hace clic en el combo) */
+.selectt select:focus {
+    border-color: #ccc;
+    /* Color de borde gris más suave */
+    box-shadow: 0 0 5px rgba(38, 186, 255, 0.2);
+    /* Sombras suaves */
+}
+
+/* Cuando se ha seleccionado una opción, permanece en color negro */
+.selectt select:focus,
+.selectt select:valid {
+    color: #000000;
+    /* Color B: negro puro cuando se hace clic y se selecciona la opción */
+}
+
+.selectt select::placeholder {
+    color: #9e9e9e;
+    /* Color del texto cuando no hay selección */
+}
+
+/* Opciones dentro del select */
+.selectt option {
+    color: rgb(36, 36, 36);
+    /* Color del texto del combobox */
+    background-color: #fff;
+}
+
+/* Estilo para los iconos */
+.selectt::after {
+    content: "\f107";
+    /* Código del icono de la flechita hacia abajo */
+    position: absolute;
+    font-family: "Font Awesome 5 Pro";
+    font-size: 14px;
+    color: #31282b;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 20;
+}

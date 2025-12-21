@@ -1,0 +1,193 @@
+@extends('template')
+
+@section('title', 'Crear Nuevo Usuario')
+
+@push('css')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        .form-icon {
+            color: #6c757d;
+            margin-right: 0.5rem;
+        }
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+@endpush
+
+@section('content')
+<div class="container-fluid px-4">
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800"><i class="bi bi-person-plus me-2"></i>Crear Nuevo Usuario</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('user.index') }}">Usuarios</a></li>
+                    <li class="breadcrumb-item active">Crear</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Tarjeta de Formulario -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light">
+            <h5 class="mb-0"><i class="bi bi-person-fill-add me-2"></i>Información del Nuevo Usuario</h5>
+            <small class="text-muted">Los usuarios son los que pueden ingresar al sistema</small>
+        </div>
+
+        <form action="{{ route('user.store') }}" method="post">
+            @csrf
+
+            <div class="card-body">
+                <!-- Nombre -->
+                <div class="form-section">
+                    <label for="name" class="form-label">
+                        <i class="bi bi-person-fill form-icon"></i>Nombre completo
+                    </label>
+                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
+                           value="{{ old('name') }}" required autocomplete="off" autofocus>
+                    @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    <div class="form-text mt-1">
+                        Escriba el nombre completo del usuario
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-section">
+                    <label for="email" class="form-label">
+                        <i class="bi bi-envelope-fill form-icon"></i>Correo electrónico
+                    </label>
+                    <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
+                           value="{{ old('email') }}" required autocomplete="off">
+                    @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    <div class="form-text mt-1">
+                        Dirección de correo válida que servirá como nombre de usuario
+                    </div>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-section position-relative">
+                    <label for="password" class="form-label">
+                        <i class="bi bi-lock-fill form-icon"></i>Contraseña
+                    </label>
+                    <input type="password" name="password" id="password"
+                           class="form-control @error('password') is-invalid @enderror" required>
+                    <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
+                    @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    <div class="form-text mt-1">
+                        Mínimo 8 caracteres, debe incluir números y caracteres especiales
+                    </div>
+                </div>
+
+                <!-- Confirmar contraseña -->
+                <div class="form-section position-relative">
+                    <label for="password_confirmation" class="form-label">
+                        <i class="bi bi-lock-fill form-icon"></i>Confirmar contraseña
+                    </label>
+                    <input type="password" name="password_confirmation" id="password_confirmation"
+                           class="form-control @error('password_confirmation') is-invalid @enderror" required>
+                    <i class="bi bi-eye-slash password-toggle" id="toggleConfirmPassword"></i>
+                    @error('password_confirmation')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Rol -->
+                <div class="form-section">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin"
+                               value="1" {{ old('is_admin') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_admin">
+                            <i class="bi bi-shield-fill-check form-icon"></i>Usuario administrador
+                        </label>
+                    </div>
+                    <div class="form-text mt-1">
+                        Los administradores tienen acceso completo al sistema
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('user.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Crear Usuario
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
+@push('js')
+<script>
+    // Toggle para mostrar/ocultar contraseña
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this;
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        }
+    });
+
+    // Toggle para mostrar/ocultar confirmación de contraseña
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+        const confirmInput = document.getElementById('password_confirmation');
+        const icon = this;
+        if (confirmInput.type === 'password') {
+            confirmInput.type = 'text';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        } else {
+            confirmInput.type = 'password';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        }
+    });
+
+    // Validación básica del formulario
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('password_confirmation').value;
+
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            alert('Las contraseñas no coinciden');
+        }
+    });
+</script>
+@endpush
