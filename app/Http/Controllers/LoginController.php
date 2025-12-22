@@ -9,22 +9,34 @@ class LoginController extends Controller
 {
     public function index()
     {
-        if(auth::check()){
+        if (Auth::check()) {
             return redirect()->route('panel');
         }
+
         return view('auth.login');
     }
 
     public function login(loginRequest $request)
     {
-        // Validar credenciales
-        if(!Auth::validate($request->only('email','password'))){
-            return redirect()->to('login')->withErrors('Credenciales incorrectas');
+        // 1️⃣ Autenticar SOLO email y password
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return back()->withErrors([
+                'email' => 'Credenciales incorrectas',
+            ])->withInput();
         }
 
-        $user = Auth::getProvider()->retrieveByCredentials($request->only('email','password'));
-        Auth::login($user);
-        return redirect()->route('panel'); // Cambia 'dashboard' por tu ruta deseada
-    }
+        // 2️⃣ Verificar si el usuario está activo
+        if (Auth::user()->estado == 0) {
+            Auth::logout();
 
+            return back()->withErrors([
+                'email' => 'Tu cuenta está desactivada',
+            ]);
+        }
+
+        // 3️⃣ Regenerar sesión
+        $request->session()->regenerate();
+
+        return redirect()->route('panel');
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -19,6 +21,8 @@ class UserController extends Controller
         return view('user.create');
     }
 
+    
+
 
     public function store(UserRequest $request)
     {
@@ -31,15 +35,44 @@ class UserController extends Controller
         return view('user.edit', compact('user')); // Retorna la vista para editar el usuario
     }
 
-    public function update(UserRequest $request, User $user)
+   public function update(UserRequest $request, User $user)
     {
-        $user->update($request->validated()); // Actualiza el usuario
-        return redirect()->route('user.index')->with('success', 'Usuario editado correctamente.');
+        $data = $request->validated();
+
+        // Seguridad extra (por si acaso)
+        unset($data['is_admin']);
+
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        $user->update($data);
+
+        return redirect()
+            ->route('user.index')
+            ->with('success', 'Usuario actualizado correctamente.');
     }
 
-    public function destroy(User $user)
+
+
+
+    public function toggleEstado(User $user)
     {
-        $user->delete(); // Elimina el usuario
-        return redirect()->route('user.index')->with('success', 'Usuario eliminado correctamente.');
+        if ($user->id === Auth::id()) {
+            return back()->with('error', 'No puedes desactivar tu propio usuario.');
+        }
+
+        $user->update([
+            'estado' => !$user->estado
+        ]);
+
+        return redirect()->route('user.index')
+            ->with('success',
+                $user->estado
+                    ? 'Usuario activado correctamente'
+                    : 'Usuario desactivado correctamente'
+            );
     }
+
+
 }

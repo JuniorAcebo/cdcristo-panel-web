@@ -54,87 +54,87 @@
             @csrf
 
             <div class="card-body">
-                <!-- Nombre -->
-                <div class="form-section">
-                    <label for="name" class="form-label">
-                        <i class="bi bi-person-fill form-icon"></i>Nombre completo
-                    </label>
-                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('name') }}" required autocomplete="off" autofocus>
-                    @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    <div class="form-text mt-1">
-                        Escriba el nombre completo del usuario
-                    </div>
-                </div>
+                <div class="row">
 
-                <!-- Email -->
-                <div class="form-section">
-                    <label for="email" class="form-label">
-                        <i class="bi bi-envelope-fill form-icon"></i>Correo electrónico
-                    </label>
-                    <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
-                           value="{{ old('email') }}" required autocomplete="off">
-                    @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    <div class="form-text mt-1">
-                        Dirección de correo válida que servirá como nombre de usuario
-                    </div>
-                </div>
-
-                <!-- Contraseña -->
-                <div class="form-section position-relative">
-                    <label for="password" class="form-label">
-                        <i class="bi bi-lock-fill form-icon"></i>Contraseña
-                    </label>
-                    <input type="password" name="password" id="password"
-                           class="form-control @error('password') is-invalid @enderror" required>
-                    <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    <div class="form-text mt-1">
-                        Mínimo 8 caracteres, debe incluir números y caracteres especiales
-                    </div>
-                </div>
-
-                <!-- Confirmar contraseña -->
-                <div class="form-section position-relative">
-                    <label for="password_confirmation" class="form-label">
-                        <i class="bi bi-lock-fill form-icon"></i>Confirmar contraseña
-                    </label>
-                    <input type="password" name="password_confirmation" id="password_confirmation"
-                           class="form-control @error('password_confirmation') is-invalid @enderror" required>
-                    <i class="bi bi-eye-slash password-toggle" id="toggleConfirmPassword"></i>
-                    @error('password_confirmation')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
-                <!-- Rol -->
-                <div class="form-section">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin"
-                               value="1" {{ old('is_admin') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_admin">
-                            <i class="bi bi-shield-fill-check form-icon"></i>Usuario administrador
+                    <!-- Nombre -->
+                    <div class="col-md-6 form-section">
+                        <label for="name" class="form-label">
+                            <i class="bi bi-person-fill form-icon"></i>Nombre completo
                         </label>
+                        <input type="text" name="name" id="name"
+                            class="form-control @error('name') is-invalid @enderror"
+                            value="{{ old('name') }}" required autocomplete="off">
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="form-text mt-1">
-                        Los administradores tienen acceso completo al sistema
+
+                    <!-- Email -->
+                    <div class="col-md-6 form-section">
+                        <label for="email" class="form-label">
+                            <i class="bi bi-envelope-fill form-icon"></i>Correo electrónico
+                        </label>
+                        <input type="email" name="email" id="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            value="{{ old('email') }}" required autocomplete="off">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="col-md-6 form-section position-relative">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-lock-fill form-icon"></i>Contraseña
+                        </label>
+                        <input type="password" name="password" id="password"
+                            class="form-control @error('password') is-invalid @enderror" required>
+                        <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Confirmar contraseña -->
+                    <div class="col-md-6 form-section position-relative">
+                        <label for="password_confirmation" class="form-label">
+                            <i class="bi bi-lock-fill form-icon"></i>Confirmar contraseña
+                        </label>
+                        <input type="password" name="password_confirmation"
+                            id="password_confirmation"
+                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                            required>
+                        <i class="bi bi-eye-slash password-toggle" id="toggleConfirmPassword"></i>
+                        @error('password_confirmation')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Rol -->
+                    <div class="col-md-12 form-section">
+
+                        <input type="hidden" name="is_admin" value="0">
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input"
+                                type="checkbox"
+                                name="is_admin"
+                                id="is_admin"
+                                value="1"
+                                {{ old('is_admin') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_admin">
+                                <i class="bi bi-shield-fill-check form-icon"></i>
+                                Usuario administrador
+                            </label>
+                        </div>
+
+                        <div class="form-text mt-1">
+                            Los administradores tienen acceso completo al sistema
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <div class="card-footer bg-light">
                 <div class="d-flex justify-content-between">

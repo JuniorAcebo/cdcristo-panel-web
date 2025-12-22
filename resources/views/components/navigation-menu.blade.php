@@ -1,69 +1,99 @@
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark bg-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
-            <div class="nav">
-                <!-- Inicio -->
-                <div class="sb-sidenav-menu-heading text-uppercase small fw-bold text-muted">Principal</div>
-                <a class="nav-link py-3" href="{{ route('panel') }}">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
+            <div class="nav nav-pills flex-column">
+
+                <!-- Principal -->
+                <div class="px-3 mt-2 mb-1">
+                    <small class="text-secondary text-uppercase fw-semibold">
+                        Principal
+                    </small>
+                    <hr class="my-1 opacity-25">
+                </div>
+
+                <a class="nav-link py-2 {{ request()->routeIs('panel') ? 'active fw-semibold' : '' }}"
+                   href="{{ route('panel') }}">
+                    <i class="bi bi-speedometer2 me-2"></i>
                     Panel de Control
                 </a>
 
-                <!-- Módulos -->
-                <div class="sb-sidenav-menu-heading text-uppercase small fw-bold text-muted">Módulos</div>
+                <div class="px-3 mt-2 mb-1">
+                    <small class="text-secondary text-uppercase fw-semibold">
+                        Módulos
+                    </small>
+                    <hr class="my-1 opacity-25">
+                </div>
 
-                <!-- Odontologos -->
-                <a class="nav-link py-3 {{ request()->routeIs('odontologo.*') ? 'active' : '' }}" href="{{ route('odontologo.index') }}">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-user-injured"></i>
-                    </div>
-                    Odontologos
-                    <span class="badge bg-primary float-end mt-1">{{ \App\Models\Odontologo::count() }}</span>
+                <!-- Odontólogos -->
+                @if(auth()->check() && auth()->user()->is_admin)
+                <a class="nav-link d-flex align-items-center justify-content-between
+                    {{ request()->routeIs('odontologo.*') ? 'active fw-semibold' : '' }}"
+                href="{{ route('odontologo.index') }}">
+                    <span>
+                        <i class="bi bi-person-badge me-2"></i>
+                        Odontólogos
+                    </span>
+                    <span class="badge bg-primary rounded-pill">
+                        {{ \App\Models\Odontologo::count() }}
+                    </span>
                 </a>
+                @endif
+
 
                 <!-- Pacientes -->
-                <a class="nav-link py-3 {{ request()->routeIs('paciente.*') ? 'active' : '' }}" href="{{ route('paciente.index') }}">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-user-injured"></i>
-                    </div>
-                    Pacientes
-                    <span class="badge bg-primary float-end mt-1">{{ \App\Models\Paciente::count() }}</span>
+                <a class="nav-link d-flex align-items-center justify-content-between
+                    {{ request()->routeIs('paciente.*') ? 'active fw-semibold' : '' }}"
+                   href="{{ route('paciente.index') }}">
+                    <span>
+                        <i class="bi bi-people me-2"></i>
+                        Pacientes
+                    </span>
+                    <span class="badge bg-success rounded-pill">
+                        {{ \App\Models\Paciente::count() }}
+                    </span>
                 </a>
 
                 <!-- Citas -->
-                <a class="nav-link py-3 {{ request()->routeIs('citas.*') ? 'active' : '' }}" href="{{ route('citas.index') }}">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    Citas
-                    <span class="badge bg-info float-end mt-1">{{ \App\Models\Cita::count() }}</span>
+                <a class="nav-link d-flex align-items-center justify-content-between
+                    {{ request()->routeIs('citas.*') ? 'active fw-semibold' : '' }}"
+                   href="{{ route('citas.index') }}">
+                    <span>
+                        <i class="bi bi-calendar2-check me-2"></i>
+                        Citas
+                    </span>
+                    <span class="badge bg-info text-dark rounded-pill">
+                        {{ \App\Models\Cita::count() }}
+                    </span>
                 </a>
 
-                <!-- Usuarios (Solo Admin) -->
+                <!-- Usuarios (solo admin) -->
                 @if(auth()->check() && auth()->user()->is_admin)
-                <a class="nav-link py-3 {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.index') }}">
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-users-cog"></i>
-                    </div>
-                    Usuarios
-                    <span class="badge bg-warning float-end mt-1">{{ \App\Models\User::count() }}</span>
+                <a class="nav-link d-flex align-items-center justify-content-between
+                    {{ request()->routeIs('user.*') ? 'active fw-semibold' : '' }}"
+                   href="{{ route('user.index') }}">
+                    <span>
+                        <i class="bi bi-people-fill me-2"></i>
+                        Usuarios
+                    </span>
+                    <span class="badge bg-warning text-dark rounded-pill">
+                        {{ \App\Models\User::count() }}
+                    </span>
                 </a>
                 @endif
+
             </div>
         </div>
 
-        <!-- Footer del Sidebar -->
-        <div class="sb-sidenav-footer bg-dark border-top border-secondary px-3 py-3">
-            <div class="small text-muted">Bienvenido</div>
-            <div class="fw-bold text-white">
-                <i class="fas fa-user-circle me-1"></i>
+        <!-- Footer -->
+        <div class="sb-sidenav-footer text-white">
+            <div class="small text-secondary">Sesión activa</div>
+            <div class="fw-semibold">
+                <i class="bi bi-person-circle me-1"></i>
                 {{ auth()->user()->name }}
             </div>
-            <div class="small text-muted mt-1">
-                <i class="fas fa-circle text-success me-1" style="font-size: 8px;"></i>
-                <h6 style="color: white">En linea</h6>
+            <div class="small text-success mt-1">
+                <i class="bi bi-circle-fill me-1"></i>
+                En línea
             </div>
         </div>
     </nav>

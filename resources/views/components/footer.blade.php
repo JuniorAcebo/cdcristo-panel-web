@@ -1,38 +1,51 @@
-<footer class="py-3 bg-dark text-white mt-auto border-top border-primary">
-    <div class="container-fluid px-4">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between small">
-            <!-- Información de Copyright -->
-            <div class="mb-2 mb-md-0">
-                <span class="text-muted">
-                    <i class="fas fa-copyright me-1"></i> {{ date('Y') }} Clínica Dental Cristo Rey
-                </span>
-                <span class="mx-2 text-muted">|</span>
-                <span class="text-white-50">
-                    <i class="fas fa-map-marker-alt me-1"></i> Santa Cruz, Bolivia
+<footer class="bg-dark text-light mt-auto border-top border-primary border-2">
+    <div class="container-fluid px-4 py-4">
+        <div class="row align-items-center gy-3">
+
+            <!-- Marca / Copyright -->
+            <div class="col-md-4 text-center text-md-start">
+                <div class="fw-semibold">
+                    <i class="bi bi-heart-pulse-fill text-primary me-1"></i>
+                    Clínica Dental Cristo Rey
+                </div>
+                <div class="small text-secondary">
+                    © {{ date('Y') }} · Santa Cruz, Bolivia
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="col-md-4 text-center">
+                <a href="#"
+                   class="text-secondary text-decoration-none mx-2 hover-text-primary">
+                    <i class="bi bi-shield-lock me-1"></i>
+                    Privacidad
+                </a>
+
+                <span class="text-secondary">·</span>
+
+                <a href="#"
+                   class="text-secondary text-decoration-none mx-2 hover-text-primary">
+                    <i class="bi bi-file-earmark-text me-1"></i>
+                    Términos
+                </a>
+
+                <span class="text-secondary">·</span>
+
+                <a href="#"
+                   class="text-secondary text-decoration-none mx-2 hover-text-primary">
+                    <i class="bi bi-envelope me-1"></i>
+                    Contacto
+                </a>
+            </div>
+
+            <!-- Versión -->
+            <div class="col-md-4 text-center text-md-end">
+                <span class="badge bg-primary-subtle text-primary border border-primary">
+                    <i class="bi bi-code-slash me-1"></i>
+                    Version Beta
                 </span>
             </div>
 
-            <!-- Enlaces legales -->
-            <div class="d-flex align-items-center">
-                <a href="#" class="text-white-50 me-3 text-decoration-none hover-text-primary">
-                    <i class="fas fa-shield-alt me-1"></i> Política de Privacidad
-                </a>
-                <span class="text-muted mx-1">•</span>
-                <a href="#" class="text-white-50 me-3 text-decoration-none hover-text-primary">
-                    <i class="fas fa-file-contract me-1"></i> Términos y Condiciones
-                </a>
-                <span class="text-muted mx-1">•</span>
-                <a href="#" class="text-white-50 text-decoration-none hover-text-primary">
-                    <i class="fas fa-envelope me-1"></i> Contacto
-                </a>
-            </div>
-
-            <!-- Versión del sistema -->
-            <div class="mt-2 mt-md-0">
-                <span class="badge bg-primary">
-                    <i class="fas fa-code-branch me-1"></i> v1.0.0
-                </span>
-            </div>
         </div>
     </div>
 </footer>

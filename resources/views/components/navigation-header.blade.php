@@ -1,47 +1,81 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary shadow-sm">
-    <!-- Navbar Brand -->
-    <a class="navbar-brand ps-3 fw-bold" href="{{ route('panel') }}">
-        <i class="fas fa-tooth me-2"></i>
+
+    <!-- Brand -->
+    <a class="navbar-brand ps-3 fw-semibold d-flex align-items-center gap-2"
+       href="{{ route('panel') }}">
+        <i class="bi bi-heart-pulse-fill fs-5"></i>
+        <span class="d-none d-sm-inline">Clínica Dental</span>
     </a>
 
     <!-- Sidebar Toggle -->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 text-white" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-3 text-white"
+            id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
     </button>
 
-    <!-- Navbar Search (Opcional) -->
-    <div class="d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input class="form-control border-0 shadow-sm" type="text" placeholder="Buscar..."
-                   aria-label="Buscar" aria-describedby="btnNavbarSearch" style="min-width: 250px;">
-            <button class="btn btn-light" id="btnNavbarSearch" type="button">
-                <i class="fas fa-search"></i>
-            </button>
+    <!-- ESPACIADOR que empuja todo a la derecha -->
+    <div class="ms-auto"></div>
+
+    <!-- Search -->
+    <div class="d-none d-md-flex me-3">
+        <div class="input-group input-group-sm">
+            <span class="input-group-text bg-light border-0">
+                <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text"
+                   class="form-control border-0"
+                   placeholder="Buscar…"
+                   aria-label="Buscar"
+                   style="min-width: 220px;">
         </div>
     </div>
 
-    <!-- User Dropdown -->
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    <!-- User Menu -->
+    <ul class="navbar-nav me-3">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">
-               <i class="fas fa-user-circle me-1"></i>
-               <span class="d-none d-lg-inline">{{ Str::limit(auth()->user()->name, 15) }}</span>
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 text-white"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                    <i class="bi bi-person-circle fs-5"></i>
+                    <span class="d-none d-lg-inline">
+                        {{ auth()->user()->name }}
+                    </span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" aria-labelledby="navbarDropdown">
+
+
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0"
+                aria-labelledby="navbarDropdown">
+
+                <li class="px-3 py-2 text-muted small">
+                    Sesión activa
+                </li>
+
                 <li>
-                    <a class="dropdown-item" href="{{ route('user.index') }}">
-                        <i class="fas fa-cog me-2 text-primary"></i>Configuraciones
+                    <a class="dropdown-item d-flex align-items-center gap-2"
+                    href="{{ route('user.index') }}">
+                        <i class="bi bi-gear text-primary"></i>
+                        Configuración
                     </a>
                 </li>
 
-                <li><hr class="dropdown-divider my-2"></li>
+                <li><hr class="dropdown-divider"></li>
+
                 <li>
-                    <a class="dropdown-item text-danger" href="{{ route('logout') }}">
-                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
-                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="dropdown-item d-flex align-items-center gap-2 text-danger">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Cerrar sesión
+                        </button>
+                    </form>
                 </li>
             </ul>
+
         </li>
     </ul>
+
 </nav>

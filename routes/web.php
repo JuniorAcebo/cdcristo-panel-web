@@ -18,7 +18,8 @@ Route::get('/', function () {
 // Rutas de autenticación
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
 
 // Rutas protegidas por middleware 'auth'
 Route::middleware(['auth'])->group(function () {
@@ -28,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('odontologo', OdontologoController::class);
     Route::patch('/odontologo/{odontologo}/estado',[OdontologoController::class, 'toggleEstado'])->name('odontologo.toggleEstado');
     Route::patch('/citas/{cita}/completar', [CitaController::class, 'completar'])->name('citas.completar');
+    Route::patch('/users/{user}/toggle-estado', [UserController::class, 'toggleEstado'])->name('user.toggleEstado');
 
 
     // Rutas para citas
@@ -45,4 +47,3 @@ Route::get('/404', fn() => view('pages.404'));
 Route::get('/500', fn() => view('pages.500'));
 
 Route::get('/hola', [OdontologoController::class, 'index']);
-

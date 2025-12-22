@@ -25,6 +25,9 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link href="{{ asset('img/favicon.ico') }}" rel="icon" type="image/ico" sizes="32x32">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
 
     @stack('css')
 

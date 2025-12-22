@@ -82,6 +82,7 @@ use Carbon\Carbon;
                             <th>Usuario</th>
                             <th>Email</th>
                             <th>Rol</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -106,17 +107,28 @@ use Carbon\Carbon;
                                 </span>
                             </td>
                             <td>
+                                <span class="badge {{ $user->estado ? 'bg-success' : 'bg-secondary' }}">
+                                    {{ $user->estado ? 'Activo' : 'Inactivo' }}
+                                </span>
+                            </td>
+
+                            <td>
                                 <div class="d-flex gap-2">
                                     <!-- Botón Editar -->
                                     <a href="{{ route('user.edit', $user) }}" class="action-btn btn btn-sm btn-outline-warning" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
 
-                                    <!-- Botón Eliminar -->
-                                    <button type="button" class="action-btn btn btn-sm btn-outline-danger"
-                                        onclick="confirmDelete('{{ route('user.destroy', $user) }}')" title="Eliminar">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    @if($user->id !== auth()->id())
+                                        <form action="{{ route('user.toggleEstado', $user) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="btn btn-sm {{ $user->estado ? 'btn-outline-danger' : 'btn-outline-success' }}">
+                                                <i class="bi {{ $user->estado ? 'bi-person-x' : 'bi-person-check' }}"></i>
+                                            </button>
+                                        </form>
+                                        @endif
                                 </div>
                             </td>
                         </tr>
