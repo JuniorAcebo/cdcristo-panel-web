@@ -240,7 +240,7 @@ use Carbon\Carbon;
                                     </div>
                                 </td>
                             </tr>
-
+                             <!--Y NO ME DIGAS POBRE-->   
                             <!-- Modal Eliminar Cita -->
                             <div class="modal fade" id="Delete-{{ $cita->id }}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
